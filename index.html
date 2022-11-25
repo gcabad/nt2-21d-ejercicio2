@@ -16,15 +16,16 @@
 <!-- El primer buscador predomina sobre los otros 2 ya que tiene mayor jerarquia. -->
 
 <div class="container-fluid mt-3" id="app">
-    <input type="text" class="form-control" v-model="criterioDeBusqueda"
-        placeholder="Ingresar un criterio de busqueda...">
+    <input type="text" class="form-control" v-model="criterioDeBusqueda" placeholder="Ingresar un criterio de busqueda...">
+    <div v-if="verificacionCriterioBusqueda()" class="alert alert-warning mt-1">Completó menos de 3 caracteres</div>
     <br>
     <input type="text" class="form-control" v-model="criterioDeBusquedaNombre"
     placeholder="Ingresar un criterio de busqueda para nombre y apellido">
-    <div v-if="criterioDeBusquedaNombre.length > 0 && criterioDeBusquedaNombre.length < 3" class="alert alert-danger mt-1">Debe completar al menos 3 caracteres</div>
+    <div v-if="verificacionCriterioNombre()" class="alert alert-warning mt-1">Completó menos de 3 caracteres</div>
+    <br>
     <input type="text" class="form-control mt-2" v-model="criterioDeBusquedaDni"
     placeholder="Ingresar un criterio de busqueda por dni...">
-    <div v-if="criterioDeBusquedaDni.length > 0 && criterioDeBusquedaDni.length < 3" class="alert alert-danger mt-1">Debe completar al menos 3 caracteres</div>
+    <div v-if="verificacionCriterioDni()" class="alert alert-warning mt-1">Completó menos de 3 caracteres</div>
     <br>
     <div class="card-deck m-0">
         <div class="row">
@@ -54,21 +55,21 @@
             //Aquí, en este array es donde tienen que agregar su información
             personas: [
                 {
-                    nombre: "Gonzalo",
-                    apellido: "Abad",
-                    correo: "Gonzalocabad@live.com",
+                    nombre: "Norbert",
+                    apellido: "Degoas",
+                    correo: "NorbertDegoas@elcondor.com",
                     dni: "11111111"
                 },
                 {
-                    nombre: "Oliver",
-                    apellido: "Atom",
-                    correo: "OliverAtom@hotmail.com",
+                    nombre: "John",
+                    apellido: "Frusciante",
+                    correo: "JohnFrusciante@hotmail.com",
                     dni: "22222222"
                 },
                 {
-                    nombre: "Steve",
-                    apellido: "Hyuga",
-                    correo: "SteveHyuga@gmail.com",
+                    nombre: "John",
+                    apellido: "Rambo",
+                    correo: "JohnRambo@gmail.com",
                     dni: "33333333"
                 },
                 {
@@ -76,6 +77,36 @@
                     apellido: "Connor",
                     correo: "sarahconnory@skynet.com",
                     dni: "44444444"
+                },
+                {
+                    nombre: "Ellen",
+                    apellido: "Ripley",
+                    correo: "EllenRipley@nostromo.com",
+                    dni: "11223344"
+                },
+                {
+                    nombre: "Tyler",
+                    apellido: "Durden",
+                    correo: "TylerDurden@fightclub.com",
+                    dni: "1232121"
+                },
+                {
+                    nombre: "Lionel",
+                    apellido: "Messi",
+                    correo: "LionelMessi@fulbo.com",
+                    dni: "44221133"
+                },
+                {
+                    nombre: "Chandler",
+                    apellido: "Bing",
+                    correo: "msChanandlerBong@friends.com",
+                    dni: "41324121"
+                },
+                {
+                    nombre: "Jake",
+                    apellido: "Peralta",
+                    correo: "jakePeralta@nine-nine.com",
+                    dni: "44112111"
                 },
             ]
 
@@ -88,14 +119,15 @@
                         return registroCompleto.toLowerCase().includes(this.criterioDeBusqueda.toLowerCase())
                     });
                 }
-                else { 
+                else {
                     let filtro1 = this.personas.filter((persona) => {
-                        let nombreCompleto = `${persona.nombre} ${persona.apellido}`
-                        return nombreCompleto.toLowerCase().includes(this.criterioDeBusquedaNombre.toLowerCase())
+                            let nombreCompleto = `${persona.nombre} ${persona.apellido}`
+                            return nombreCompleto.toLowerCase().includes(this.criterioDeBusquedaNombre.toLowerCase())
                     })
+                    
                     return filtro1.filter((persona) => {
-                    let documento = `dni ${persona.dni}`
-                    return documento.includes(this.criterioDeBusquedaDni.toString())
+                        let documento = `dni ${persona.dni}`
+                        return documento.includes(this.criterioDeBusquedaDni.toString())
                     });
                 }
             },
@@ -103,7 +135,18 @@
         methods: {
             getNombreCompleto(persona) {
                 return `${persona.nombre} ${persona.apellido}`
+            },
+            verificacionCriterioNombre() {
+                return this.criterioDeBusquedaNombre.length > 0 && this.criterioDeBusquedaNombre.length < 3
+            },
+            verificacionCriterioDni() {
+                return this.criterioDeBusquedaDni.length > 0 && this.criterioDeBusquedaDni.length < 3
+            },
+            verificacionCriterioBusqueda() {
+                return this.criterioDeBusqueda.length > 0 && this.criterioDeBusqueda.length < 3
             }
+
+
         }
     });
 </script>
